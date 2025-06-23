@@ -1,93 +1,131 @@
 
-# Stratyx - Professional Forex Backtesting Platform
+# Stratyx - Professional Forex Backtesting & Trading Platform
 
-## Project info
+## Overview
 
-**URL**: https://lovable.dev/projects/0ac6f77a-06eb-4d44-8e40-776afbcaf28c
+Stratyx is a comprehensive forex strategy backtesting platform built with React, TypeScript, and Supabase. It allows traders to build, test, and analyze trading strategies against historical market data. 
 
-## About Stratyx
+This project has been enhanced to include:
+- **24/7 automated strategy execution** using Supabase Edge Functions and Cron Jobs.
+- **Live trade integration** with the OANDA v20 API.
+- A manual trade execution feature directly from the user interface.
 
-Stratyx is a comprehensive forex strategy backtesting platform that enables traders to:
-- Build and test forex trading strategies
-- Analyze historical market data
-- Evaluate strategy performance with detailed metrics
-- Implement advanced technical indicators
-- Perform multi-timeframe analysis
+## Tech Stack
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/0ac6f77a-06eb-4d44-8e40-776afbcaf28c) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-- Supabase (for data management)
+- **Frontend**: Vite, React 18, TypeScript, Tailwind CSS, shadcn/ui
+- **Backend**: Supabase (Edge Functions, Database, Auth)
+- **API**: OANDA v20 REST API
 
 ## Features
 
-- **Strategy Builder**: Visual and code-based strategy creation
-- **Data Manager**: Historical forex data management
-- **Backtest Engine**: Comprehensive strategy testing
-- **Performance Analytics**: Detailed metrics and visualizations
-- **Multi-timeframe Analysis**: Advanced strategy validation
-- **Technical Indicators**: Comprehensive library of indicators
+- **Strategy Builder**: Visual and code-based strategy creation.
+- **Backtest Engine**: Comprehensive strategy testing with detailed performance analytics.
+- **24/7 Automated Trading**: Run strategies continuously on the server via a cron job.
+- **Manual Trading**: Execute trades directly from the application interface.
+- **OANDA Integration**: Connects to OANDA's practice environment for live data and trade execution.
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/0ac6f77a-06eb-4d44-8e40-776afbcaf28c) and click on Share -> Publish.
+## 🚀 Local Development Setup
 
-## Can I connect a custom domain to my Stratyx project?
+To set up and run this project on your local machine, follow these steps.
 
-Yes, you can!
+### Prerequisites
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- [Node.js](https://nodejs.org/en/download/) (version 18 or higher)
+- [Supabase CLI](https://supabase.com/docs/guides/cli/getting-started)
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Step-by-Step Guide
+
+#### 1. Clone the Repository
+
+```sh
+git clone <YOUR_GIT_URL>
+cd <YOUR_PROJECT_NAME>
+```
+
+#### 2. Install Frontend Dependencies
+
+```sh
+npm install
+```
+
+#### 3. Set up Supabase CLI
+
+Log in to your Supabase account and link the project:
+
+```sh
+supabase login
+supabase link --project-ref <your-project-ref>
+```
+
+You can find your `<your-project-ref>` in your Supabase project's URL:  
+`https://supabase.com/dashboard/project/<your-project-ref>`
+
+#### 4. Configure Environment Variables
+
+Create a new file named `.env.local` in the root directory:
+
+```sh
+touch .env.local
+```
+
+Add the following variables to the `.env.local` file:
+
+```env
+VITE_SUPABASE_URL=https://<your-project-ref>.supabase.co
+VITE_SUPABASE_ANON_KEY=<your-anon-key>
+```
+
+You can find these keys in your Supabase Dashboard under **Project Settings > API**.
+
+---
+
+## ⚙️ Backend & Automation Setup
+
+The backend runs on Supabase Edge Functions and requires secrets and a cron job to be configured.
+
+### 1. Set Supabase Secrets
+
+These secrets are used by Edge Functions to securely connect to the OANDA API:
+
+```sh
+supabase secrets set OANDA_API_KEY=your_oanda_api_key_here
+supabase secrets set OANDA_ACCOUNT_ID=your_oanda_account_id_here
+```
+
+### 2. Deploy Edge Functions
+
+```sh
+supabase functions deploy
+```
+
+### 3. Schedule the Cron Job for Automation
+
+To run the `strategy-runner` function automatically every minute:
+
+1. Go to your Supabase Dashboard.
+2. Navigate to **Database > Cron Jobs**.
+3. Click **"Create a new job"**.
+4. Fill in the form with:
+   - **Name**: `invoke-strategy-runner`
+   - **Schedule**: `* * * * *`
+   - **Function**: `strategy-runner`
+   - **Headers**:
+     - **Name**: `Authorization`
+     - **Value**: `Bearer <your-anon-key>`
+
+Click **"Create cron job"** to save it.
+
+---
+
+## ▶️ How to Run the Application
+
+After completing all the setup steps, start the development server:
+
+```sh
+npm run dev
+```
+
+Your application will be available at:  
+[http://localhost:5173](http://localhost:5173)
