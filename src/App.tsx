@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./hooks/useAuth";
 import { SubscriptionProvider } from "./hooks/useSubscription";
 import { OANDAConnectionProvider } from "./contexts/OANDAConnectionContext";
+import AuthGuard from "./components/AuthGuard";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Guide from "./pages/Guide";
@@ -22,9 +23,13 @@ const App = () => (
             <Toaster />
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Index />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/guide" element={<Guide />} />
+                <Route path="/" element={
+                  <AuthGuard>
+                    <Index />
+                  </AuthGuard>
+                } />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
