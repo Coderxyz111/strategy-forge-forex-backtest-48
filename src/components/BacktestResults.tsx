@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,7 +12,7 @@ import StrategyInfo from './backtest/StrategyInfo';
 import StrategyCoach from './backtest/StrategyCoach';
 
 interface BacktestResultsProps {
-  results: any;E
+  results: any;
 }
 
 const BacktestResults: React.FC<BacktestResultsProps> = ({ results }) => {
