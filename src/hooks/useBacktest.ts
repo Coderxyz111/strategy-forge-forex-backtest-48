@@ -7,11 +7,22 @@ import { MarketDataService } from '@/services/marketDataService';
 import { BacktestExecutionService } from '@/services/backtestExecutionService';
 
 export const useBacktest = () => {
+  const [strategy, setStrategy] = useState<BacktestStrategy>({
+    name: '',
+    code: '',
+    symbol: 'EUR_USD',
+    timeframe: 'M5'
+  });
+  const [backtestResults, setBacktestResults] = useState<any>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [currentStep, setCurrentStep] = useState('');
   const { toast } = useToast();
 
-  const runBacktest = async (strategy: BacktestStrategy, onBacktestComplete: (results: any) => void) => {
+  const handleStrategyChange = (updates: Partial<BacktestStrategy>) => {
+    setStrategy(prev => ({ ...prev, ...updates }));
+  };
+
+  const runBacktest = async () => {
     setIsRunning(true);
     
     try {
@@ -31,7 +42,7 @@ export const useBacktest = () => {
         setCurrentStep
       );
 
-      onBacktestComplete(results);
+      setBacktestResults(results);
 
     } catch (error) {
       console.error('Enhanced backtest failed:', error);
@@ -53,8 +64,11 @@ export const useBacktest = () => {
   };
 
   return {
+    strategy,
+    backtestResults,
     isRunning,
     currentStep,
+    handleStrategyChange,
     runBacktest
   };
 };

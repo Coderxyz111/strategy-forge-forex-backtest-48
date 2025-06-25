@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
@@ -85,6 +86,10 @@ const Index = () => {
     runBacktest();
   }, [strategy, runBacktest, toast]);
 
+  const handleTabValueChange = useCallback((value: string) => {
+    setActiveTab(value as "strategy" | "oanda" | "trading");
+  }, []);
+
   useEffect(() => {
     if (user) {
       loadSavedConfigs();
@@ -130,7 +135,7 @@ const Index = () => {
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
           {/* Strategy Builder */}
           <div className="space-y-6">
-            <Tabs defaultValue="strategy" className="w-full" onValueChange={setActiveTab}>
+            <Tabs defaultValue="strategy" className="w-full" onValueChange={handleTabValueChange}>
               <TabsList className="bg-slate-700">
                 <TabsTrigger value="strategy" className="data-[state=active]:bg-slate-600">Strategy</TabsTrigger>
                 <TabsTrigger value="oanda" className="data-[state=active]:bg-slate-600">OANDA</TabsTrigger>
