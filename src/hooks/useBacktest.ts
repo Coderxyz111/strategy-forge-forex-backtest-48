@@ -11,7 +11,16 @@ export const useBacktest = () => {
     name: '',
     code: '',
     symbol: 'EUR_USD',
-    timeframe: 'M5'
+    timeframe: 'M5',
+    initialBalance: 10000,
+    riskPerTrade: 2,
+    stopLoss: 50,
+    takeProfit: 100,
+    spread: 1.5,
+    commission: 0,
+    slippage: 0.5,
+    maxPositionSize: 100000,
+    riskModel: 'fixed'
   });
   const [backtestResults, setBacktestResults] = useState<any>(null);
   const [isRunning, setIsRunning] = useState(false);

@@ -37,7 +37,7 @@ const StrategyBuilder: React.FC<StrategyBuilderProps> = ({
     if (!checkCanRunBacktest()) {
       return;
     }
-    runBacktest(strategy, handleBacktestComplete);
+    runBacktest();
   };
 
   // <-- CHANGE 1: Naya function yahan banaya
@@ -60,7 +60,7 @@ const StrategyBuilder: React.FC<StrategyBuilderProps> = ({
     };
     
     console.log('Testing reverse strategy with reverseSignals:', reversedStrategy.reverseSignals);
-    runBacktest(reversedStrategy, handleBacktestComplete);
+    runBacktest();
   };
 
   const handleAddToStrategy = (codeSnippet: string) => {
